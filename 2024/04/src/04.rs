@@ -1,5 +1,4 @@
-
-aoc::parts!(1,2);
+aoc::parts!(1, 2);
 
 fn part_1(input: aoc::Input) -> impl ToString {
     let raw_input = input.raw();
@@ -38,7 +37,8 @@ fn part_1(input: aoc::Input) -> impl ToString {
                         || new_row >= rows as isize
                         || new_col < 0
                         || new_col >= cols as isize
-                        || grid[new_row as usize][new_col as usize] != target.chars().nth(i).unwrap()
+                        || grid[new_row as usize][new_col as usize]
+                            != target.chars().nth(i).unwrap()
                     {
                         found = false;
                         break;
@@ -77,14 +77,18 @@ fn part_2(input: aoc::Input) -> impl ToString {
 
             // Top-left to bottom-right
             if row >= 1 && col >= 1 && row + 1 < rows && col + 1 < cols {
-                if (grid[row - 1][col - 1] == 'M' && grid[row + 1][col + 1] == 'S') || (grid[row - 1][col - 1] == 'S' && grid[row + 1][col + 1] == 'M') {
+                if (grid[row - 1][col - 1] == 'M' && grid[row + 1][col + 1] == 'S')
+                    || (grid[row - 1][col - 1] == 'S' && grid[row + 1][col + 1] == 'M')
+                {
                     xmas_count += 1;
                 }
             }
 
             // Top-right to bottom-left
             if row >= 1 && col + 1 < cols && row + 1 < rows && col >= 1 {
-                if (grid[row - 1][col + 1] == 'M' && grid[row + 1][col - 1] == 'S') || (grid[row - 1][col + 1] == 'S' && grid[row + 1][col - 1] == 'M') {
+                if (grid[row - 1][col + 1] == 'M' && grid[row + 1][col - 1] == 'S')
+                    || (grid[row - 1][col + 1] == 'S' && grid[row + 1][col - 1] == 'M')
+                {
                     xmas_count += 1;
                 }
             }

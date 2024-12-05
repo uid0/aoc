@@ -1,9 +1,8 @@
 use regex::Regex;
 
-aoc::parts!(1,2);
+aoc::parts!(1, 2);
 
 fn part_1(input: aoc::Input) -> impl ToString {
-
     let memory_text = input.raw(); // or appropriate method to get &str
 
     // Define a regex to match valid `mul(X,Y)` patterns
