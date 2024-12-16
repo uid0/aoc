@@ -222,6 +222,20 @@ dependencies = [
 ]
 
 [[package]]
+name = "y2024d14"
+version = "0.1.0"
+dependencies = [
+ "aoclib",
+]
+
+[[package]]
+name = "y2024d15"
+version = "0.1.0"
+dependencies = [
+ "aoclib",
+]
+
+[[package]]
 name = "zerocopy"
 version = "0.7.35"
 source = "registry+https://github.com/rust-lang/crates.io-index"
