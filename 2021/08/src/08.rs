@@ -1,18 +1,19 @@
-aoc::parts!(1,2);
+aoc::parts!(1, 2);
 
 fn part_1(input: aoc::Input) -> impl ToString {
-    let result = input.raw()
-            .lines()
-            .flat_map(|l| l.split_once('|').unwrap().1.split_ascii_whitespace())
-            .filter(|d| matches!(d.len(), 2 | 3 | 4 | 7))
-            .count();
+    let result = input
+        .raw()
+        .lines()
+        .flat_map(|l| l.split_once('|').unwrap().1.split_ascii_whitespace())
+        .filter(|d| matches!(d.len(), 2 | 3 | 4 | 7))
+        .count();
 
     result
-
 }
 
 fn part_2(input: aoc::Input) -> impl ToString {
-    let result = input.raw()
+    let result = input
+        .raw()
         .split(|&b| b == b'\n')
         .map(|line| {
             let mut part = line.splitn(2, |&b| b == b'|');

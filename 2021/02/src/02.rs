@@ -1,7 +1,8 @@
-aoc::parts!(1,2);
+aoc::parts!(1, 2);
 
 fn part_1(input: aoc::Input) -> impl ToString {
-    let (f, d) = input.raw()
+    let (f, d) = input
+        .raw()
         .lines()
         .map(|l| l.split_once(" ").unwrap())
         .fold((0, 0), |(f, d), (k, v)| {
@@ -12,12 +13,13 @@ fn part_1(input: aoc::Input) -> impl ToString {
                 _ => unreachable!(),
             }
         });
-    let output = f*d;
+    let output = f * d;
     output
 }
 
 fn part_2(input: aoc::Input) -> impl ToString {
-    let (f, d, _) = input.raw()
+    let (f, d, _) = input
+        .raw()
         .lines()
         .map(|l| l.split_once(" ").unwrap())
         .fold((0, 0, 0), |(f, d, a), (k, v)| {
@@ -29,7 +31,6 @@ fn part_2(input: aoc::Input) -> impl ToString {
             }
         });
 
-    let output = f*d;
+    let output = f * d;
     output
-
 }

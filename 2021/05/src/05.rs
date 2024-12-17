@@ -10,7 +10,12 @@ fn part_1(input: aoc::Input) -> impl ToString {
         let (mut p1, mut p2) = line
             .split_once(" -> ")
             .unwrap()
-            .map(|s| s.split(',').map(str::parse::<usize>).collect::<Result<Vec<_>, _>>().unwrap())
+            .map(|s| {
+                s.split(',')
+                    .map(str::parse::<usize>)
+                    .collect::<Result<Vec<_>, _>>()
+                    .unwrap()
+            })
             .collect::<Vec<_>>();
 
         for ((x1, y1), (x2, y2)) in itertools::tuple_windows(&[(p1[0], p1[1]), (p2[0], p2[1])]) {
@@ -37,4 +42,3 @@ fn part_1(input: aoc::Input) -> impl ToString {
 // fn part_2(input: aoc::Input) -> impl ToString {
 //     0
 // }
-

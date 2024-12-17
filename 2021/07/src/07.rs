@@ -1,7 +1,8 @@
-aoc::parts!(1,2);
+aoc::parts!(1, 2);
 
 fn part_1(input: aoc::Input) -> impl ToString {
-    let mut subs = input.raw()
+    let mut subs = input
+        .raw()
         .split(',')
         .map(|n| n.parse().unwrap())
         .collect::<Vec<i32>>();
@@ -14,23 +15,24 @@ fn part_1(input: aoc::Input) -> impl ToString {
 }
 
 fn part_2(input: aoc::Input) -> impl ToString {
-    let subs = input.raw()
+    let subs = input
+        .raw()
         .split(',')
         .map(|n| n.parse().unwrap())
         .collect::<Vec<_>>();
 
     let result = (subs.iter().sum::<i32>() / subs.len() as i32..)
-            .take(2)
-            .map(|t| {
-                subs.iter()
-                    .map(|n| {
-                        let d = (n - t).abs();
-                        d * (d + 1) / 2
-                    })
-                    .sum::<i32>()
-            })
-            .min()
-            .unwrap();
+        .take(2)
+        .map(|t| {
+            subs.iter()
+                .map(|n| {
+                    let d = (n - t).abs();
+                    d * (d + 1) / 2
+                })
+                .sum::<i32>()
+        })
+        .min()
+        .unwrap();
 
     result
 }

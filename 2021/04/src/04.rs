@@ -1,11 +1,9 @@
 use hashbrown::HashMap;
 
-aoc::parts!(1,2);
+aoc::parts!(1, 2);
 
 const ROW: u32 = 0b11111;
 const COL: u32 = 0b100001000010000100001;
-
-
 
 fn part_1(input: aoc::Input) -> impl ToString {
     const ROW: u32 = 0b11111;
@@ -50,7 +48,6 @@ fn part_1(input: aoc::Input) -> impl ToString {
 }
 
 fn part_2(input: aoc::Input) -> impl ToString {
-
     let (nums, boards) = input.raw().split_once("\n\n").unwrap();
 
     let mut boards: Vec<(HashMap<u8, usize>, u32)> = boards
@@ -66,7 +63,10 @@ fn part_2(input: aoc::Input) -> impl ToString {
         })
         .collect();
 
-    let nums = nums.split(',').map(|n| n.parse::<u8>().unwrap()).collect::<Vec<_>>(); // Specify type here
+    let nums = nums
+        .split(',')
+        .map(|n| n.parse::<u8>().unwrap())
+        .collect::<Vec<_>>(); // Specify type here
 
     let (board, mark, num) = 'outer: loop {
         for n in nums.iter().copied() {
