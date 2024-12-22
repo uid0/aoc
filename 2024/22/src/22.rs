@@ -22,21 +22,25 @@ fn part_2(input: aoc::Input) -> impl ToString {
     let initial_secrets: Vec<u64> = raw_data.lines().map(|line| line.parse().unwrap()).collect();
 
     // Generate all possible sequences of four price changes (-9 to 9 inclusive)
-    let mut best_sequence = vec![0; 4];
     let mut max_bananas = 0;
 
-    for seq in (-9..=9).flat_map(|a| {
-        (-9..=9)
-            .flat_map(move |b| (-9..=9).flat_map(move |c| (-9..=9).map(move |d| vec![a, b, c, d])))
-    }) {
-        let total_bananas: u64 = initial_secrets
-            .iter()
-            .map(|&secret| calculate_bananas_for_sequence(secret, &seq, 2000))
-            .sum();
+    for a in -9..=9 {
+        for b in -9..=9 {
+            for c in -9..=9 {
+                for d in -9..=9 {
+                    let sequence = [a, b, c, d];
+                    let total_bananas: u64 = initial_secrets
+                        .iter()
+                        .map(|&secret| {
+                            calculate_bananas_for_sequence_optimized(secret, &sequence, 2000)
+                        })
+                        .sum();
 
-        if total_bananas > max_bananas {
-            max_bananas = total_bananas;
-            best_sequence = seq.clone();
+                    if total_bananas > max_bananas {
+                        max_bananas = total_bananas;
+                    }
+                }
+            }
         }
     }
 
@@ -61,30 +65,38 @@ fn simulate_secret(mut secret: u64, steps: usize) -> u64 {
     secret
 }
 
-fn calculate_bananas_for_sequence(secret: u64, sequence: &[i32], steps: usize) -> u64 {
-    let mut prices = vec![];
-    let mut changes = vec![];
+fn calculate_bananas_for_sequence_optimized(secret: u64, sequence: &[i32; 4], steps: usize) -> u64 {
     let mut current_secret = secret;
+    let mut last_price = (current_secret % 10) as i32;
+    let mut changes = [0; 4];
+    let mut match_idx = 0;
 
     for _ in 0..steps {
-        let price = (current_secret % 10) as i32;
-        prices.push(price);
-
-        if prices.len() > 1 {
-            let change = price - prices[prices.len() - 2];
-            changes.push(change);
-
-            if changes.len() >= 4 {
-                if &changes[changes.len() - 4..] == sequence {
-                    return price as u64;
-                }
-            }
-        }
-
+        // Generate next price
         current_secret = simulate_secret(current_secret, 1);
+        let price = (current_secret % 10) as i32;
+
+        // Calculate the price change
+        let change = price - last_price;
+        last_price = price;
+
+        // Update the rolling changes array
+        changes[match_idx] = change;
+        match_idx = (match_idx + 1) % 4;
+
+        // Check if the current sequence matches
+        if changes
+            .iter()
+            .cycle()
+            .skip(match_idx)
+            .take(4)
+            .eq(sequence.iter())
+        {
+            return price as u64; // Return the price if sequence matches
+        }
     }
 
-    0
+    0 // No match found
 }
 
 #[cfg(test)]
@@ -110,10 +122,10 @@ mod tests {
         let input = "1\n2\n3\n2024";
         let initial_secrets: Vec<u64> = input.lines().map(|line| line.parse().unwrap()).collect();
 
-        let sequence = vec![-2, 1, -1, 3];
+        let sequence = [-2, 1, -1, 3];
         let bananas: u64 = initial_secrets
             .iter()
-            .map(|&secret| calculate_bananas_for_sequence(secret, &sequence, 2000))
+            .map(|&secret| calculate_bananas_for_sequence_optimized(secret, &sequence, 2000))
             .sum();
 
         assert_eq!(bananas, 23);
